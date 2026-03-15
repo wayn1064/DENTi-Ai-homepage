@@ -1,0 +1,32 @@
+import React from 'react';
+import { PricingSection } from './PricingSection';
+
+export const Home: React.FC = () => {
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Hero Section */}
+      <section className="bg-[#1A365D] text-white py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl font-extrabold sm:text-6xl tracking-tight">
+            치과 병의원의 미래,<br className="hidden sm:block" />
+            <span className="text-blue-300">DENTi-Ai</span>와 함께 시작하세요.
+          </h1>
+          <p className="mt-6 text-xl text-blue-100 max-w-3xl mx-auto">
+            국내 유일의 완벽하게 격리된 이벤트 기반 아키텍처. 압도적인 속도와 안정성으로 병원 업무를 100% 자동화합니다.
+          </p>
+          <div className="mt-10 flex justify-center gap-4">
+            <button className="px-8 py-3 text-lg font-medium rounded-md bg-white text-[#1A365D] hover:bg-gray-50 transition-colors shadow-lg">
+              무료로 시작하기
+            </button>
+            <button className="px-8 py-3 text-lg font-medium rounded-md bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1A365D] transition-colors">
+              도입 문의
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <PricingSection />
+    </div>
+  );
+};
