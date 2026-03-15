@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { PricingSection } from './PricingSection';
 
 export const Home: React.FC = () => {
@@ -15,12 +16,12 @@ export const Home: React.FC = () => {
             국내 유일의 완벽하게 격리된 이벤트 기반 아키텍처. 압도적인 속도와 안정성으로 병원 업무를 100% 자동화합니다.
           </p>
           <div className="mt-10 flex justify-center gap-4">
-            <button className="px-8 py-3 text-lg font-medium rounded-md bg-white text-[#1A365D] hover:bg-gray-50 transition-colors shadow-lg">
+            <Link to="/register" className="px-8 py-3 text-lg font-medium flex items-center justify-center rounded-md bg-white text-[#1A365D] hover:bg-gray-50 transition-colors shadow-lg">
               무료로 시작하기
-            </button>
-            <button className="px-8 py-3 text-lg font-medium rounded-md bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1A365D] transition-colors">
+            </Link>
+            <Link to="/board?tab=inquiries" className="px-8 py-3 text-lg font-medium flex items-center justify-center rounded-md bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1A365D] transition-colors">
               도입 문의
-            </button>
+            </Link>
           </div>
         </div>
       </section>

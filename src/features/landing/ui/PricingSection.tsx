@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const plans = [
   {
@@ -26,11 +27,16 @@ const plans = [
 ];
 
 export const PricingSection: React.FC = () => {
-  const handleCheckout = (planName: string) => {
+  const navigate = useNavigate();
+
+  const handleCheckout = (planName: string, price: string) => {
+    if (price === '문의하기') {
+      navigate('/board?tab=inquiries');
+      return;
+    }
     // 본사(WAYN-Ai) 통합 로그인/회원가입으로 연동
-    // Cloud Run에 배포된 통합 인증 서버 URL로 리다이렉트
-    const waynAuthUrl = import.meta.env.VITE_WAYN_AUTH_URL || 'https://auth.wayn-ai.com';
-    window.location.href = `${waynAuthUrl}/login?redirect=${window.location.href}&plan=${planName}`;
+    const waynAuthUrl = import.meta.env.VITE_WAYN_AUTH_URL || 'https://auth.wayn-ai.com/api/auth/login';
+    window.location.href = `${waynAuthUrl}?redirect=${window.location.href}&plan=${planName}`;
   };
 
   return (
@@ -80,7 +86,7 @@ export const PricingSection: React.FC = () => {
 
               <div className="mt-8">
                 <button
-                  onClick={() => handleCheckout(plan.name)}
+                  onClick={() => handleCheckout(plan.name, plan.price)}
                   className={`w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md transition-colors ${
                     plan.isPopular
                       ? 'bg-[#1A365D] text-white hover:bg-blue-900 shadow-md'

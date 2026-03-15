@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageCircle, Info } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 export const Board: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  
   const [activeTab, setActiveTab] = useState<'notices' | 'inquiries'>('notices');
+
+  useEffect(() => {
+    if (tabParam === 'inquiries' || tabParam === 'notices') {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
+
+  const handleTabChange = (tab: 'notices' | 'inquiries') => {
+    setActiveTab(tab);
+    setSearchParams({ tab });
+  };
 
   return (
     <div className="flex-1 bg-gray-50 py-12">
@@ -13,7 +28,7 @@ export const Board: React.FC = () => {
         <div className="border-b border-gray-200 mb-8">
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
             <button
-              onClick={() => setActiveTab('notices')}
+              onClick={() => handleTabChange('notices')}
               className={`${
                 activeTab === 'notices'
                   ? 'border-[#1A365D] text-[#1A365D]'
@@ -24,7 +39,7 @@ export const Board: React.FC = () => {
               공지사항
             </button>
             <button
-              onClick={() => setActiveTab('inquiries')}
+              onClick={() => handleTabChange('inquiries')}
               className={`${
                 activeTab === 'inquiries'
                   ? 'border-[#1A365D] text-[#1A365D]'
