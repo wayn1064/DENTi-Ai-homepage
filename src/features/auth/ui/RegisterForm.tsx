@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Building2, User, Phone, MapPin, KeyRound, CheckSquare, Layers, Search } from 'lucide-react';
+import { Building2, User, Phone, MapPin, KeyRound, CheckSquare, Layers, Search, X } from 'lucide-react';
+import DaumPostcode from 'react-daum-postcode';
 
 const solutions = [
   { id: 'director', name: '원장실', desc: '병원 전반의 핵심 지표 모니터링 및 전자 결재' },
@@ -23,6 +24,25 @@ export const RegisterForm: React.FC = () => {
     adminPassword: '',
     selectedSolutions: [] as string[],
   });
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+
+  const handleCompletePostcode = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setFormData(prev => ({ ...prev, address: fullAddress }));
+    setIsPostcodeOpen(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -181,7 +201,7 @@ export const RegisterForm: React.FC = () => {
                     </div>
                     <button
                       type="button"
-                      onClick={() => alert('주소 검색 팝업 (Mock)')}
+                      onClick={() => setIsPostcodeOpen(true)}
                       className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-[#1A365D] focus:border-[#1A365D]"
                     >
                       <Search className="h-5 w-5 text-gray-400" />
@@ -259,6 +279,22 @@ export const RegisterForm: React.FC = () => {
             </section>
 
             {/* Submit Button */}
+            {isPostcodeOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col m-4 animate-in fade-in zoom-in duration-200">
+                  <div className="flex justify-between items-center p-4 border-b border-gray-100 bg-gray-50">
+                    <h3 className="text-lg font-bold text-[#1A365D]">주소 검색</h3>
+                    <button type="button" onClick={() => setIsPostcodeOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-200">
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div className="p-0 bg-white" style={{ height: '400px' }}>
+                    <DaumPostcode onComplete={handleCompletePostcode} style={{ height: '100%', width: '100%' }} />
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="pt-6 border-t border-gray-200">
               <button
                 type="submit"
